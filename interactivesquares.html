@@ -2,17 +2,39 @@
 <html>
 
 <script>
+  var rectid = 0;
+  var rectx = 100;
+	
   function changeDimensions() {
         document.getElementById("rect1").setAttribute("width", "100");
     }	
+	
+  function drawRectangle() {
+  var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); 
+  var svgNS = svg.namespaceURI;
+
+
+    var rect = document.createElementNS(svgNS,'rect');
+    rect.setAttribute('x',rectx);
+    rect.setAttribute('y',10);
+    rect.setAttribute('width',250);
+    rect.setAttribute('height',250);
+    rect.setAttribute('fill','#95B3D7');
+	rect.setAttribute('id', rectid);
+    svg.appendChild(rect);
+    document.getElementById("svgcanvas").appendChild(svg);
+	rectid++;
+	rectx = rectx + 50;
+    }  
 </script>
 
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:90%;width:90%;border:1px solid black;">
+<svg id="svgcanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:90%;width:90%;border:1px solid black;">
     <rect id="rect1" x="10" y="10" width="50" height="80"
           style="stroke:#000000; fill:none;"/>
 </svg>
 
 <button onclick="changeDimensions()">Change dimensions</button>
+<button onclick="drawRectangle()">Draw Rectangle</button>
 </body>
 </html>
