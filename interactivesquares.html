@@ -1,0 +1,18 @@
+
+<html>
+
+<script>
+  function changeDimensions() {
+        document.getElementById("rect1").setAttribute("width", "100");
+    }	
+</script>
+
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:90%;width:90%;border:1px solid black;">
+    <rect id="rect1" x="10" y="10" width="50" height="80"
+          style="stroke:#000000; fill:none;"/>
+</svg>
+
+<button onclick="changeDimensions()">Change dimensions</button>
+</body>
+</html>
