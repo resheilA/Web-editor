@@ -4,28 +4,48 @@
 <script>
   var rectid = 0;
   var rectx = 100;
+  var lastMoveX=0, lastMoveY=0,dontmove = 0;
 	
   function changeDimensions() {
-        document.getElementById("rect1").setAttribute("width", "100");
+        document.getElementById("rect1").setAttribute("x", "100");
     }	
 	
   function drawRectangle() {
   var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); 
   var svgNS = svg.namespaceURI;
-
-
-    var rect = document.createElementNS(svgNS,'rect');
-    rect.setAttribute('x',rectx);
+  var rect = document.createElementNS(svgNS,'rect');
+    rect.setAttribute('x',10);
     rect.setAttribute('y',10);
     rect.setAttribute('width',250);
     rect.setAttribute('height',250);
     rect.setAttribute('fill','#95B3D7');
 	rect.setAttribute('id', rectid);
+	rect.setAttribute('onmousedown', 'moverect(event)');
+	rect.setAttribute('transform', 'translate(00,00)');
     svg.appendChild(rect);
     document.getElementById("svgcanvas").appendChild(svg);
 	rectid++;
 	rectx = rectx + 50;
     }  
+
+ function moverect(event){
+    var xdown = event.clientX;
+    var ydown = event.clientY;
+	dontmove = 0;
+    this.onmousemove = function(event) {
+	if(dontmove == 0){
+	var xmove = lastMoveX + event.clientX - xdown;
+    var ymove = lastMoveY + event.clientY - ydown;
+	document.getElementById("0").setAttributeNS(null, "transform", 'translate('+ xmove+ ',' + ymove + ')');
+	}
+	this.onmouseup = function(event) {
+	lastMoveX = xmove;
+    lastMoveY = ymove;
+	dontmove = 1;
+	};	
+	};
+ } 
+
 </script>
 
 <body>
