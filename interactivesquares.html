@@ -5,7 +5,7 @@
   var rectid = 0;
   var rectx = 100;
   var lastMoveX=0, lastMoveY=0,dontmove = 0;
-	
+ 	
   function changeDimensions() {
         document.getElementById("rect1").setAttribute("x", "100");
     }	
@@ -16,6 +16,8 @@
   var rect = document.createElementNS(svgNS,'rect');
     rect.setAttribute('x',10);
     rect.setAttribute('y',10);
+	rect.setAttribute('myx',10);
+    rect.setAttribute('myy',10);
     rect.setAttribute('width',250);
     rect.setAttribute('height',250);
     rect.setAttribute('fill','#95B3D7');
@@ -25,22 +27,36 @@
     svg.appendChild(rect);
     document.getElementById("svgcanvas").appendChild(svg);
 	rectid++;
-	rectx = rectx + 50;
+	//rectx = rectx + 50;
     }  
 
+	var moveid;	var xmove, ymove;var xdown, ydown;var oldx, oldy;
  function moverect(event){
-    var xdown = event.clientX;
-    var ydown = event.clientY;
+    xdown = event.clientX;
+    ydown = event.clientY;
 	dontmove = 0;
+	moveid =  event.currentTarget.id;  
+	//console.log(document.getElementById(moveid).getAttribute("x"));
+	
     this.onmousemove = function(event) {
 	if(dontmove == 0){
-	var xmove = lastMoveX + event.clientX - xdown;
-    var ymove = lastMoveY + event.clientY - ydown;
-	document.getElementById("0").setAttributeNS(null, "transform", 'translate('+ xmove+ ',' + ymove + ')');
+	oldx = document.getElementById(moveid).getAttribute("oldx");
+    oldy = document.getElementById(moveid).getAttribute("oldy");	
+	
+    xmove =  parseInt(oldx) + event.clientX - xdown;
+    ymove =  parseInt(oldy) + event.clientY - ydown;
+	
+	console.log(xmove + " " + ymove);
+	// document.getElementById(moveid).setAttributeNS(null, "transform", 'translate('+ xmove+ ',' + ymove + ')');
+	document.getElementById(moveid).setAttribute("x", xmove);
+	document.getElementById(moveid).setAttribute("y", ymove);
 	}
+	
 	this.onmouseup = function(event) {
-	lastMoveX = xmove;
-    lastMoveY = ymove;
+	document.getElementById(moveid).setAttribute("oldx", xmove);
+	document.getElementById(moveid).setAttribute("oldy", ymove);
+ //    console.log(document.getElementById(moveid).getCTM().e);
+	// document.getElementById(moveid).setAttribute("x", document.getElementById(moveid).getCTM().e );
 	dontmove = 1;
 	};	
 	};
@@ -51,7 +67,7 @@
 <body>
 <svg id="svgcanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:90%;width:90%;border:1px solid black;">
     <rect id="rect1" x="10" y="10" width="50" height="80"
-          style="stroke:#000000; fill:none;"/>
+          style="stroke:#000000; fill:none;" />
 </svg>
 
 <button onclick="changeDimensions()">Change dimensions</button>
