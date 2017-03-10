@@ -25,11 +25,8 @@
   newText.setAttribute('id', rectid);
   newText.setAttribute('onmousedown', 'moverect(event)');
   newText.innerHTML = "this is some text";
-   newText.setAttributeNS(null,"font-size","40");
-
-   var textelement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-	var textNode = document.createTextNode(svg);
-	newText.appendChild(textNode);
+   newText.setAttribute("font-size","40");
+	svg.appendChild(newText);
 	document.getElementById("svgcanvas").appendChild(newText);  
 	rectid++;
   }
