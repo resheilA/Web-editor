@@ -12,8 +12,8 @@
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); 
     var svgNS = svg.namespaceURI;
     var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
-	svgimg.setAttribute('height','200');
 	svgimg.setAttribute('width','200');
+	svgimg.setAttribute('height','200');
 	svgimg.setAttribute('id', rectid);
 	svgimg.setAttribute('onmousedown', 'moverect(event)');
 	svgimg.setAttribute('oldx',10);
@@ -27,6 +27,7 @@
 	rectid++;
   }
 
+  
   function addtextbox(){
    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); 
   var svgNS = svg.namespaceURI;
@@ -38,6 +39,7 @@
   newText.setAttribute('width',250);
   newText.setAttribute('height',250);
   newText.setAttribute('id', rectid);
+  newText.setAttribute('style', "z-index:+2;");
   newText.setAttribute('onmousedown', 'moverect(event)');
   newText.innerHTML = "this is some text";
    newText.setAttribute("font-size","40");
@@ -58,14 +60,25 @@
     rect.setAttribute('height',250);
     rect.setAttribute('fill','#95B3D7');
 	rect.setAttribute('id', rectid);
+	rect.setAttribute('style', 'border:5px solid black;');
 	rect.setAttribute('onmousedown', 'moverect(event)');
 	rect.setAttribute('transform', 'translate(00,00)');
     svg.appendChild(rect);
     document.getElementById("svgcanvas").appendChild(svg);
 	rectid++;
-	//rectx = rectx + 50;
     }  
 
+	var delelement;	
+   function deleteselected()
+	{
+     	delelement = document.getElementById(selectedid);
+		
+		if(!selectedid){
+		document.getElementById("errorbox").innerHTML = "Please select something first";
+		return;
+		}
+		delelement.setAttribute("style", "display:none;");
+	}
 	
     function moverect(event){
     xdown = event.clientX;
@@ -75,10 +88,12 @@
 	selectedid = moveid;
 	//console.log(document.getElementById(moveid).getAttribute("x"));
 	//console.log(xdown - parseInt(document.getElementById(moveid).getAttribute("width")) + " "+ document.getElementById(moveid).getAttribute("x"));
+	/*
 	if((xdown - parseInt(document.getElementById(moveid).getAttribute("width"))) < document.getElementById(moveid).getAttribute("x") < (xdown - (parseInt(document.getElementById(moveid).getAttribute("width")) + 10)) )
 	{
-	dontmove = 1;changesize = 1;
+	dontmove = 1;changesize = 1; 
 	}	 
+	*/
 	
 	
     this.onmousemove = function(event) {
@@ -149,6 +164,8 @@ http.send(content);
 	document.getElementById(selectedid).setAttribute("width",width);
 	}
 	
+
+	
 	function getheight()
 	{
 		if(!selectedid){
@@ -169,15 +186,13 @@ http.send(content);
 <body id='body'>
 <svg id="svgcanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:90%;width:90%;border:1px solid black;">
 
-    <rect id="rect1" x="10" y="10" width="50" height="80"
-          style="stroke:#000000; fill:none;" />
 </svg>
 
-<button onclick="changeDimensions()">Change dimensions</button>
 <button onclick="drawRectangle()">Draw Rectangle</button>
 <button onclick="savefile()">Save the changes made</button>
 <button onclick="addtextbox()">Add textbox </button>
 <button onclick="addimage()">Add Image </button>
+<button onclick="deleteselected()">Delete</button>
 <input type='text' id='height' placeholder="Height" onclick="getheight()">
 <input type='text' id='width' placeholder="Width" onclick="getwidth()">
 <button onclick="changedimension()">Change </button>
