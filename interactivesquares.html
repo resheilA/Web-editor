@@ -1,5 +1,6 @@
 
 <html>
+<center>
 <p id="errorbox"></p>
 <script>
   var rectid = 0;
@@ -39,8 +40,8 @@
   newText.setAttribute('width',250);
   newText.setAttribute('height',250);
   newText.setAttribute('id', rectid);
-  newText.setAttribute('style', "z-index:+2;");
   newText.setAttribute('onmousedown', 'moverect(event)');
+  newText.setAttribute('ondblclick', 'openeditor()');
   newText.innerHTML = "this is some text";
    newText.setAttribute("font-size","40");
 	svg.appendChild(newText);
@@ -128,6 +129,9 @@
 	};	
 	};
  } 
+ 
+
+
 
 function savefile(){
 var content = "data=" + document.getElementById("svgcanvas").innerHTML;
@@ -149,8 +153,8 @@ http.send(content);
 
 }
  
- var height;
-   function changedimension(event)
+ var height, width;
+   function changedimensions(event)
 	{
 		if(!selectedid){
 		document.getElementById("errorbox").innerHTML = "Please select something first";
@@ -159,13 +163,11 @@ http.send(content);
 	if (document.getElementById("height").value == 0){ document.getElementById("height").value = 10;}
 	if (document.getElementById("width").value == 0){ document.getElementById("width").value = 10;}
 	height = document.getElementById("height").value; 
-	width = document.getElementById("width").value; 
+	width = document.getElementById("width").value;
 	document.getElementById(selectedid).setAttribute("height",height);
 	document.getElementById(selectedid).setAttribute("width",width);
 	}
-	
 
-	
 	function getheight()
 	{
 		if(!selectedid){
@@ -182,12 +184,87 @@ http.send(content);
 		}
 	    document.getElementById("width").value = document.getElementById(selectedid).getAttribute("width");
 	}
+	
+	
+		function gettext()
+	{
+		if(!selectedid){
+		document.getElementById("errorbox").innerHTML = "Please select something first";
+		return;
+		}
+	    document.getElementById("entered_text").value = document.getElementById(selectedid).innerHTML;
+		document.getElementById("currentfontfamily").value = document.getElementById(selectedid).getAttribute("font-family");
+		document.getElementById("currentfontfamily").innerHTML = document.getElementById(selectedid).getAttribute("font-family");
+		
+	}
+	
+	function openeditor()
+	{
+	   document.getElementById("editor").style = "display:static;"; 	
+	}
+	
+	function changetext()
+	{
+	   document.getElementById(selectedid).innerHTML = document.getElementById("entered_text").value; 
+	   document.getElementById(selectedid).setAttribute("font-family", document.getElementById("fontfamily").value); 
+	     document.getElementById(selectedid).setAttribute("font-size", document.getElementById("fontsize").value); 
+	    document.getElementById("editor").style = "display:none;"; 	
+	}
+	
+	function makebold(){
+	 document.getElementById(selectedid).setAttribute("font-weight", "bold"); 
+	}
+	
+	function makeunbold(){
+	 document.getElementById(selectedid).setAttribute("font-weight", "unbold"); 
+	}
+	
+	function makeitalic(){
+	 document.getElementById(selectedid).setAttribute("font-style", "italic"); 
+	}
+	
+	function makeunitalic(){
+	 document.getElementById(selectedid).setAttribute("font-style", "normal"); 
+	}
+	
+	function makeunderline(){
+	 document.getElementById(selectedid).setAttribute("text-decoration", "underline"); 
+	}
+	
+	function makeununderline(){
+	 document.getElementById(selectedid).setAttribute("text-decoration", "none"); 
+	}
 </script>
 <body id='body'>
-<svg id="svgcanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:90%;width:90%;border:1px solid black;">
+<div id='editor' style='display:none;'>
+<input type='text' placeholder='Enter Text' id='entered_text' onclick='gettext()'>
+<select id='fontfamily'>
+  <option id='currentfontfamily' value="" selected onclick='gettext()'</option>
+  <option value="Arial">Arial</option>
+  <option value="Verdana">Verdana</option>
+  <option value="Sans Serif">Sans Serif</option>
+</select>
+<select id='fontsize'>
+  <option value="10">0.5</option>
+  <option value="20">1</option>
+  <option value="30">2</option>
+  <option value="40">3</option>
+  <option value="50">4</option>
+  <option value="60">5</option>
+  <option value="70">6</option>
+  <option value="80">7</option>
+</select>
+
+<button onclick='makebold()' ondblclick='makeunbold()'>B</button>
+<button onclick='makeitalic()' ondblclick='makeunitalic()'>I</button>
+<button onclick='makeunderline()' ondblclick='makeununderline()'>U</button>
+<button onclick="changetext()">Save the changes made</button>
+</div>
+<br>
+<svg id="svgcanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:90%;width:70%;border:1px solid black; overflow: scroll;">
 
 </svg>
-
+<br>
 <button onclick="drawRectangle()">Draw Rectangle</button>
 <button onclick="savefile()">Save the changes made</button>
 <button onclick="addtextbox()">Add textbox </button>
@@ -195,6 +272,6 @@ http.send(content);
 <button onclick="deleteselected()">Delete</button>
 <input type='text' id='height' placeholder="Height" onclick="getheight()">
 <input type='text' id='width' placeholder="Width" onclick="getwidth()">
-<button onclick="changedimension()">Change </button>
+<button onclick="changedimensions()">Change </button>
 </body>
 </html>
