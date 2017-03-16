@@ -207,7 +207,8 @@ http.send(content);
 	{
 	   document.getElementById(selectedid).innerHTML = document.getElementById("entered_text").value; 
 	   document.getElementById(selectedid).setAttribute("font-family", document.getElementById("fontfamily").value); 
-	     document.getElementById(selectedid).setAttribute("font-size", document.getElementById("fontsize").value); 
+	     document.getElementById(selectedid).setAttribute("font-size", document.getElementById("fontsize").value); 		
+		 document.getElementById(selectedid).setAttribute("fill", "#"+document.getElementById("fontcolor").value); 
 	    document.getElementById("editor").style = "display:none;"; 	
 	}
 	
@@ -234,6 +235,10 @@ http.send(content);
 	function makeununderline(){
 	 document.getElementById(selectedid).setAttribute("text-decoration", "none"); 
 	}
+	
+	function changecolor() {
+     document.getElementById(selectedid).setAttribute("fill", "#"+document.getElementById("bgcolor").value); 
+	}
 </script>
 <body id='body'>
 <div id='editor' style='display:none;'>
@@ -254,6 +259,8 @@ http.send(content);
   <option value="70">6</option>
   <option value="80">7</option>
 </select>
+<script src="jscolor.js"></script>
+Color: <input class="jscolor" value="ab2567" id='fontcolor'>
 
 <button onclick='makebold()' ondblclick='makeunbold()'>B</button>
 <button onclick='makeitalic()' ondblclick='makeunitalic()'>I</button>
@@ -266,12 +273,14 @@ http.send(content);
 </svg>
 <br>
 <button onclick="drawRectangle()">Draw Rectangle</button>
-<button onclick="savefile()">Save the changes made</button>
 <button onclick="addtextbox()">Add textbox </button>
 <button onclick="addimage()">Add Image </button>
 <button onclick="deleteselected()">Delete</button>
 <input type='text' id='height' placeholder="Height" onclick="getheight()">
 <input type='text' id='width' placeholder="Width" onclick="getwidth()">
 <button onclick="changedimensions()">Change </button>
+Background Color: <input class="jscolor" value="ab2567" id='bgcolor'>
+<button onclick="changecolor()">Change Color</button>
+<button onclick="savefile()">Save the changes made</button>
 </body>
 </html>
