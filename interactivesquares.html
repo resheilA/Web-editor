@@ -201,6 +201,7 @@ http.send(content);
 	function openeditor()
 	{
 	   document.getElementById("editor").style = "display:static;"; 	
+	   gettext();
 	}
 	
 	function changetext()
@@ -242,7 +243,7 @@ http.send(content);
 </script>
 <body id='body'>
 <div id='editor' style='display:none;'>
-<input type='text' placeholder='Enter Text' id='entered_text' onclick='gettext()'>
+<input type='text' placeholder='Enter Text' id='entered_text' onload='gettext()'>
 <select id='fontfamily'>
   <option id='currentfontfamily' value="" selected onclick='gettext()'</option>
   <option value="Arial">Arial</option>
@@ -268,9 +269,11 @@ Color: <input class="jscolor" value="ab2567" id='fontcolor'>
 <button onclick="changetext()">Save the changes made</button>
 </div>
 <br>
-<svg id="svgcanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:90%;width:70%;border:1px solid black; overflow: scroll;">
+<div id="Div1" style=" float: left; width: 1150px;height : 600px; overflow:scroll; ">
+<svg id="svgcanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" style="height:990%;width:90%;border:1px solid black; overflow: scroll;">
 
 </svg>
+</div>
 <br>
 <button onclick="drawRectangle()">Draw Rectangle</button>
 <button onclick="addtextbox()">Add textbox </button>
